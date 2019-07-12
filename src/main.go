@@ -20,7 +20,6 @@ func main() {
 		ctx.WriteString("pong")
 	})
 
-
-	app.Run(iris.Addr(":8080"))
+	app.Run(iris.Addr(":8848"))
 
 }
