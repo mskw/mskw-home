@@ -9,7 +9,7 @@ pipeline {
                     cat README.md
                     ls -lah
 
-                    go run src/main.go &
+
 
                 '''
             }
