@@ -8,6 +8,9 @@ pipeline {
                     echo "Multiline shell steps works too"
                     cat README.md
                     ls -lah
+
+                    go run src/main.go &
+
                 '''
             }
         }
