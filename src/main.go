@@ -6,7 +6,6 @@ import (
 	"github.com/kataras/iris/context"
 	"github.com/kataras/iris/middleware/logger"
 	"github.com/kataras/iris/middleware/recover"
-	"github.com/name5566/leaf/log"
 	"os"
 	"os/signal"
 	"syscall"
@@ -16,15 +15,15 @@ func main() {
 
 	file, err := os.OpenFile("/www/pid/mskw-home", os.O_CREATE|os.O_WRONLY, 0666)
 	if err != nil {
-		log.Error("create pid file error: %v", err)
+		panic(fmt.Errorf("create pid file error: %v", err))
 	}
 	_, err = file.WriteString(fmt.Sprintf("%v", os.Getpid()))
 	if err != nil {
-		log.Error("create pid file error: %v", err)
+		panic(fmt.Errorf("create pid file error: %v", err))
 	}
 	err = file.Close()
 	if err != nil {
-		log.Error("create pid file error: %v", err)
+		panic(fmt.Errorf("create pid file error: %v", err))
 	}
 
 	c := make(chan os.Signal)
