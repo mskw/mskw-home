@@ -15,9 +15,9 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                sh '''
-                    go run src/main.go
-                '''
+                withEnv(['JENKINS_NODE_COOKIE=dontkillme']) {
+                    sh 'go run src/main.go'
+                }
             }
         }
     }
