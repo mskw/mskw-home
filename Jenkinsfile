@@ -16,7 +16,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh '''
-                    echo "Deploy Strat"
+                    go run src/main.go
                 '''
             }
         }
