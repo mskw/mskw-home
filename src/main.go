@@ -6,19 +6,48 @@ import (
 	"github.com/kataras/iris/context"
 	"github.com/kataras/iris/middleware/logger"
 	"github.com/kataras/iris/middleware/recover"
+	"github.com/sevlyar/go-daemon"
+	"log"
 	"os"
 	"os/signal"
 	"syscall"
 )
 
-const pidFile = "/www/pid/mskw-home"
+const (
+	workDir = "/www/mskw-home/"
+	pidFile = "/www/pid/mskw-home"
+	logFile = "/www/log/mskw-home"
+)
 
 func main() {
-	if IsExist(pidFile) {
-		panic(fmt.Errorf("another server process exists"))
+	//if IsExist(pidFile) {
+	//	panic(fmt.Errorf("another server process exists"))
+	//}
+	//writePidFile()
+	//setUpSignalHandler()
+	cntxt := &daemon.Context{
+		PidFileName: pidFile,
+		PidFilePerm: 0644,
+		LogFileName: logFile,
+		LogFilePerm: 0640,
+		WorkDir:     workDir,
+		Umask:       027,
+		Args:        []string{"[go-daemon sample]"},
 	}
-	writePidFile()
-	setUpSignalHandler()
+
+	d, err := cntxt.Reborn()
+	if err != nil {
+		log.Fatal("Unable to run: ", err)
+	}
+	if d != nil {
+		return
+	}
+	defer cntxt.Release()
+
+	log.Print("- - - - - - - - - - - - - - -")
+	log.Print("daemon started")
+
+	//setUpSignalHandler()
 
 	app := iris.New()
 
