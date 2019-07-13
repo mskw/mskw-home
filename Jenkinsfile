@@ -5,7 +5,9 @@ pipeline {
             steps {
                 sh 'echo "Hello World"'
                 sh '''
-                    kill `cat /www/pid/mskw-home`
+                    if [ ! -f "/www/pid/mskw-home" ]; then
+                        kill `cat /www/pid/mskw-home`
+                    fi
                     echo "Multiline shell steps works too"
                     cat README.md
                     ls -lah
